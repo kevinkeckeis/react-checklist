@@ -7,7 +7,6 @@ const Item = ({ item }) => {
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(item);
   const edit = (e) => {
     e.preventDefault();
     dispatch(setItem({ id: item.id, name: name, done: item.done }));

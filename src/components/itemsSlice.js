@@ -36,7 +36,7 @@ export const itemsSlice = createSlice({
       item.done = action.payload.done;
     },
     removeItemsByListId: (state, action) =>
-      state.filter((item) => item.id !== action.payload),
+      state.filter((item) => item.listId !== action.payload),
   },
 });
 

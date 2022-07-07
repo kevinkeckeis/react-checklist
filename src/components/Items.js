@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Item from './Item';
 import { addItem } from './itemsSlice';
 
-const Items = ({ handleSelection, listId }) => {
+const Items = ({ listId }) => {
   const list = useSelector((state) => state.items);
   const dispatch = useDispatch();
   const [newName, setNewName] = useState('');
