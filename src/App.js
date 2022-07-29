@@ -1,5 +1,5 @@
-import Lists from './components/Lists';
-import Items from './components/Items';
+import Lists from './features/lists/Lists';
+import Items from './features/items/Items';
 import { useCallback, useState } from 'react';
 
 function App() {
