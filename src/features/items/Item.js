@@ -1,11 +1,12 @@
 import { CheckIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeItem, setItem } from './itemsSlice';
 
 const Item = ({ item }) => {
   const [name, setName] = useState(item.name);
   const [isEdit, setIsEdit] = useState(false);
+  const inputRef = useRef();
   const dispatch = useDispatch();
 
   const edit = (e) => {
@@ -18,7 +19,7 @@ const Item = ({ item }) => {
     dispatch(removeItem(item.id));
   };
 
-  const switchDone = (e) => {
+  const toogleDone = (e) => {
     const newState = {
       id: item.id,
       name: item.name,
@@ -26,12 +27,19 @@ const Item = ({ item }) => {
     };
     dispatch(setItem(newState));
   };
+
+  useEffect(() => {
+    if (isEdit) {
+      inputRef.current.focus();
+    }
+  }, [isEdit]);
+
   return (
     <li className='flex m-3 items-center'>
       <input
         type='checkbox'
         className='mr-2'
-        onChange={switchDone}
+        onChange={toogleDone}
         checked={item.done}
       />
       {isEdit ? (
@@ -42,13 +50,14 @@ const Item = ({ item }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className='form-input h-7'
+              ref={inputRef}
             />
           </form>
         </>
       ) : (
         <div
-          className='flex-1 hover:text-blue-400 cursor-pointer select-none'
-          onClick={switchDone}
+          className='flex-1 hover:text-blue-700 cursor-pointer select-none'
+          onClick={toogleDone}
         >
           {item.name}
         </div>
@@ -63,14 +72,14 @@ const Item = ({ item }) => {
         </div>
       ) : (
         <div
-          className='text-gray-700 p-1 hover:text-blue-400  cursor-pointer'
+          className='text-gray-700 p-1 hover:text-blue-700  cursor-pointer'
           onClick={() => setIsEdit(!isEdit)}
         >
           <PencilAltIcon className='h-6 w-6' />
         </div>
       )}
       <div
-        className='text-gray-700 p-1 hover:text-blue-400 cursor-pointer'
+        className='text-gray-700 p-1 hover:text-blue-700 cursor-pointer'
         onClick={remove}
       >
         <TrashIcon className='h-6 w-6' />
