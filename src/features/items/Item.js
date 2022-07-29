@@ -64,12 +64,20 @@ const Item = ({ item }) => {
       )}
 
       {isEdit ? (
-        <div
-          className='text-gray-700 p-1 hover:text-green-400  cursor-pointer'
-          onClick={edit}
-        >
-          <CheckIcon className='h-6 w-6' />
-        </div>
+        <>
+          <div
+            className='text-gray-700 p-1 hover:text-blue-700 cursor-pointer'
+            onClick={remove}
+          >
+            <TrashIcon className='h-6 w-6' />
+          </div>
+          <div
+            className='text-gray-700 p-1 hover:text-green-400  cursor-pointer'
+            onClick={edit}
+          >
+            <CheckIcon className='h-6 w-6' />
+          </div>
+        </>
       ) : (
         <div
           className='text-gray-700 p-1 hover:text-blue-700  cursor-pointer'
@@ -78,12 +86,6 @@ const Item = ({ item }) => {
           <PencilAltIcon className='h-6 w-6' />
         </div>
       )}
-      <div
-        className='text-gray-700 p-1 hover:text-blue-700 cursor-pointer'
-        onClick={remove}
-      >
-        <TrashIcon className='h-6 w-6' />
-      </div>
     </li>
   );
 };
