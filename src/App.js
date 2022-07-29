@@ -1,6 +1,5 @@
-import Header from './components/Header';
-import Lists from './components/Lists';
-import Items from './components/Items';
+import Lists from './features/lists/Lists';
+import Items from './features/items/Items';
 import { useCallback, useState } from 'react';
 
 function App() {
@@ -9,7 +8,9 @@ function App() {
 
   return (
     <div className='container mx-auto p-10 max-w-screen-md'>
-      <Header />
+      <header>
+        <h1 className='text-2xl text-center mb-5'>React Checklist</h1>
+      </header>
       <div className='flex flex-col md:flex-row gap-5'>
         <Lists handleSelection={handleSelection} selection={selection} />
         <Items listId={selection} />
