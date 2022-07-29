@@ -36,7 +36,7 @@ const List = ({ handleSelection, selection, list }) => {
               type='text'
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className='form-input h-7 flex-1'
+              className='form-input h-7 flex-1 mx-2'
             />
           </form>
         </>
