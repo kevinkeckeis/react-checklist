@@ -1,24 +1,29 @@
 import { nanoid } from 'nanoid';
-import React, { useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { MouseEvent, useMemo, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../app/store';
 import Item from './Item';
 import { addItem } from './itemsSlice';
 
-const Items = ({ listId }) => {
-  const list = useSelector((state) => state.items);
+type Props = {
+  listId: string;
+};
+
+const Items: React.FC<Props> = ({ listId }) => {
+  const list = useAppSelector((state) => state.items);
   const dispatch = useDispatch();
   const [newName, setNewName] = useState('');
   const filterList = list.filter((item) => item.listId === listId);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const renderList = useMemo(
     () => filterList.map((item) => <Item key={item.id} item={item} />),
     [filterList]
   );
 
-  const handleAddItem = (e) => {
+  const handleAddItem = (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (newName === '') {
-      inputRef.current.focus();
+      inputRef.current?.focus();
       return;
     }
     const newItem = {

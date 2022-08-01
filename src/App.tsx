@@ -3,8 +3,11 @@ import Items from './features/items/Items';
 import { useCallback, useState } from 'react';
 
 function App() {
-  const [selection, setSelection] = useState();
-  const handleSelection = useCallback((listId) => setSelection(listId), []);
+  const [selection, setSelection] = useState<string | null>(null);
+  const handleSelection = useCallback(
+    (listId: string) => setSelection(listId),
+    []
+  );
 
   return (
     <div className='container mx-auto p-10 max-w-screen-md'>
@@ -13,7 +16,7 @@ function App() {
       </header>
       <div className='flex flex-col md:flex-row gap-5'>
         <Lists handleSelection={handleSelection} selection={selection} />
-        <Items listId={selection} />
+        {selection && <Items listId={selection} />}
       </div>
     </div>
   );

@@ -1,34 +1,40 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeItemsByListId } from '../items/itemsSlice';
 import { removeList, setList } from './listsSlice';
 import { CheckIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 
-const List = ({ handleSelection, selection, list }) => {
+type Props = {
+  handleSelection: (listId: string) => void;
+  selection: string | null;
+  list: { id: string; title: string };
+};
+
+const List: React.FC<Props> = ({ handleSelection, selection, list }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [title, setTitle] = useState(list.title);
-  const titleRef = useRef(null);
-  const inputRef = useRef(null);
+  const titleRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
   const remove = () => {
     dispatch(removeList(list.id));
     dispatch(removeItemsByListId(list.id));
   };
 
-  const select = (e) => {
+  const select = (e: MouseEvent<HTMLLIElement>) => {
     if (e.target === e.currentTarget || e.target === titleRef.current) {
       handleSelection(list.id);
     }
   };
 
-  const edit = (e) => {
+  const edit = (e: MouseEvent<any>) => {
     e.preventDefault();
     setIsEdit(false);
     dispatch(setList({ id: list.id, title: title }));
   };
 
   useEffect(() => {
-    if (isEdit) {
+    if (isEdit && inputRef.current) {
       inputRef.current.focus();
     }
   }, [isEdit]);

@@ -18,7 +18,9 @@ export const listSlice = createSlice({
       state.filter((list) => list.id !== action.payload),
     setList: (state, action) => {
       let list = state.find((list) => list.id === action.payload.id);
-      list.title = action.payload.title;
+      if (typeof list !== 'undefined') {
+        list.title = action.payload.title;
+      }
     },
   },
 });

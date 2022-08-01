@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = [
+export type ItemType = {
+  id: string;
+  listId: string;
+  name: string;
+  done: boolean;
+};
+
+const initialState: ItemType[] = [
   { id: '1', listId: '1', name: 'Chalkbag', done: false },
   { id: '2', listId: '1', name: 'Shoes', done: false },
   { id: '3', listId: '1', name: 'Water bottle', done: false },
@@ -32,8 +39,10 @@ export const itemsSlice = createSlice({
       state.filter((item) => item.id !== action.payload),
     setItem: (state, action) => {
       const item = state.find((item) => item.id === action.payload.id);
-      item.name = action.payload.name;
-      item.done = action.payload.done;
+      if (item) {
+        item.name = action.payload.name;
+        item.done = action.payload.done;
+      }
     },
     removeItemsByListId: (state, action) =>
       state.filter((item) => item.listId !== action.payload),

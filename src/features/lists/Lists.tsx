@@ -1,14 +1,19 @@
-import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import List from './List';
 import { nanoid } from '@reduxjs/toolkit';
 import { addList } from './listsSlice';
+import { useAppDispatch, useAppSelector } from '../../app/store';
 
-const Lists = ({ handleSelection, selection }) => {
-  const lists = useSelector((state) => state.lists);
+type Props = {
+  handleSelection: (listId: string) => void;
+  selection: string | null;
+};
+
+const Lists: React.FC<Props> = ({ handleSelection, selection }) => {
+  const lists = useAppSelector((state) => state.lists);
   const [newTitle, setNewTitle] = useState('');
-  const inputRef = useRef(null);
-  const dispatch = useDispatch();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useAppDispatch();
 
   const renderList = lists.map((list) => {
     return (
@@ -21,10 +26,10 @@ const Lists = ({ handleSelection, selection }) => {
     );
   });
 
-  const handleAddList = (e) => {
+  const handleAddList = (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (newTitle === '') {
-      inputRef.current.focus();
+      inputRef.current?.focus();
       return;
     }
     const newList = { id: nanoid(), title: newTitle };
@@ -33,7 +38,7 @@ const Lists = ({ handleSelection, selection }) => {
   };
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current?.focus();
   }, []);
 
   return (

@@ -1,15 +1,19 @@
 import { CheckIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { removeItem, setItem } from './itemsSlice';
+import { removeItem, setItem, ItemType } from './itemsSlice';
 
-const Item = ({ item }) => {
+type Props = {
+  item: ItemType;
+};
+
+const Item: React.FC<Props> = ({ item }) => {
   const [name, setName] = useState(item.name);
   const [isEdit, setIsEdit] = useState(false);
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
 
-  const edit = (e) => {
+  const edit = (e: MouseEvent<any>) => {
     e.preventDefault();
     dispatch(setItem({ id: item.id, name: name, done: item.done }));
     setIsEdit(false);
@@ -19,7 +23,7 @@ const Item = ({ item }) => {
     dispatch(removeItem(item.id));
   };
 
-  const toogleDone = (e) => {
+  const toogleDone = () => {
     const newState = {
       id: item.id,
       name: item.name,
@@ -30,7 +34,7 @@ const Item = ({ item }) => {
 
   useEffect(() => {
     if (isEdit) {
-      inputRef.current.focus();
+      inputRef.current?.focus();
     }
   }, [isEdit]);
 
